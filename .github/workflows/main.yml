@@ -3,32 +3,28 @@ name: Build
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-permissions:
-  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: drafts
-        path: "*.txt *.html"
+      - name: Build draft
+        run: |
+          npm install -g mmark
+          make
 
-    - name: Deploy to gh-pages
-      if: github.ref == 'refs/heads/main'
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
-        publish_branch: gh-pages
-        destination_dir: ${{ github.sha }}
-        keep_files: false
-        personal_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_branch_is_default: false
+      - name: Upload HTML artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: draft-html
+          path: "*.html"
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          keep_files: false
