@@ -3,46 +3,32 @@ name: Build
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: drafts
+        path: "*.txt *.html"
 
-      - name: Install xml2rfc
-        run: pip install xml2rfc
-
-      - name: Install kramdown
-        run: gem install kramdown
-
-      - name: Clone i-d-template
-        run: |
-          git clone -q --depth 10 -b main https://github.com/martinthomson/i-d-template lib
-
-      - name: Build draft
-        run: make
-
-      - name: List generated files
-        run: ls -la *.html *.txt || echo "No HTML/TXT files generated"
-
-      - name: Upload HTML artifact
-        uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: draft-html
-          path: "*.html"
-
-      - name: Deploy to gh-pages
-        if: success()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          publish_branch: gh-pages
-          keep_files: false
+    - name: Deploy to gh-pages
+      if: github.ref == 'refs/heads/main'
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        publish_branch: gh-pages
+        destination_dir: ${{ github.sha }}
+        keep_files: false
+        personal_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch_is_default: false
