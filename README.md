@@ -23,7 +23,7 @@ After pushing changes to the `main` branch, GitHub Actions will automatically:
 
 ## Related Work
 
-- **HJS (Human Judgment System)**: Implementation of TP/3 for AI agent  ](https://datatracker.ietf.org/doc/draft-wang-hjs-judgment-event/))
+- **HJS**: Implementation of TP/3 for AI agent  ](https://datatracker.ietf.org/doc/draft-wang-hjs-judgment-event/))
 - **TP Family**: TP/1 (Perception), TP/2 (Direction), TP/3 (Copy), TP/4 (Emergence) — separate drafts
 
 ## License
