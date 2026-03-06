@@ -26,6 +26,3 @@ After pushing changes to the `main` branch, GitHub Actions will automatically:
 - **HJS**: Implementation of TP/3 for AI agent  ](https://datatracker.ietf.org/doc/draft-wang-hjs-judgment-event/))
 - **TP Family**: TP/1 (Perception), TP/2 (Direction), TP/3 (Copy), TP/4 (Emergence) — separate drafts
 
-## License
-
-See the [LICENSE](LICENSE) file for details. The code in this repository is subject to the IETF's [Simplified BSD License](https://trustee.ietf.org/license-info/).
